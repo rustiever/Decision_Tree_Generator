@@ -61,7 +61,14 @@ class HomeView extends StatelessWidget {
           RaisedButton(
             onPressed: () {
               // print(subtables(controller.aRows, 1));
-              buildTree(controller.aRows, controller.aHeaders);
+              final Node node =
+                  buildTree(controller.aRows, controller.aHeaders);
+              printInfo(info: node.toString());
+              print(node.children);
+              print(node.children.length);
+              print(node.attribute);
+              print(node.answer);
+              printTree(node, 0);
             },
             child: const Text('hell'),
           )
@@ -164,13 +171,16 @@ class HomeView extends StatelessWidget {
 
 class Node {
   String attribute;
-  List<Pair> children;
+  List<Pair> children = [];
   String answer;
   Node(
     this.attribute, {
     this.children,
     this.answer,
-  });
+  }) {
+    children = [];
+    answer = '';
+  }
 }
 
 //log calculation.
@@ -278,7 +288,7 @@ void printTree(Node node, int level) {
   }
   List<String> l = List.filled(level, "  ");
   print(l.join() + node.attribute);
-  l.clear();
+  // l.clear();
   for (final Pair val in node.children) {
     l = List.filled(level + 1, "  ");
     print(l.join() + val.val);
